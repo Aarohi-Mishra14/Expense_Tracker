@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <link rel="stylesheet" href="CSS/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/03c335e5b6.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <header>
+        <nav class="navigation_bar">
+            <div class="logo_part">
+                <div id="logo"><i class="fa-solid fa-wallet"></i></div>
+                <div class="brand_text">
+                    <b id="name">Expense Tracker</b>
+                    <span id="tagline">Track Your Daily Expenses</span>
+                </div>
+            </div>
+
+            <div class="search_bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="search_input" placeholder="Search expenses...">
+                <span id="search_clear">Clear</span>
+            </div>
+
+            <div class="navigation_right">
+                <div class="dropdown_wrap">
+                    <button type="button" id="notification_bell">
+                        <i class="fa-solid fa-bell"></i>
+                        <span id="notification_dot" class="hidden"></span>
+                    </button>
+                    <div id="notification_panel" class="dropdown_panel hidden">
+                        <p class="dropdown_panel_title">Notifications</p>
+                        <div id="notification_list" class="dropdown_list"></div>
+                    </div>
+                </div>
+
+                <div class="dropdown_wrap">
+                    <div id="user_profile_btn" class="user_profile" role="button" tabindex="0">
+                        <div class="user_avatar">CF</div>
+                        <div class="user_details">
+                            <b id="user_name">Demo User</b>
+                            <span id="user_role">Student</span>
+                        </div>
+                        <i class="fa-solid fa-chevron-down profile_chevron"></i>
+                    </div>
+                    <div id="profile_panel" class="dropdown_panel profile_dropdown_panel hidden">
+                        <button type="button" class="dropdown_item" id="account_settings_item"><i class="fa-solid fa-user-gear"></i> Account Settings</button>
+                        <button type="button" class="dropdown_item" id="sign_out_item"><i class="fa-solid fa-arrow-right-from-bracket"></i> Sign Out</button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div id="low_balance_banner" class="low_balance_banner">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>Heads up — your remaining balance has dropped below 10% of your total salary.</span>
+        </div>
+
+        <div class="dashboard_grid">
+            <div class="dashboard_left">
+                <section class="panel_card salary_card">
+                    <div class="panel_head">
+                        <div class="panel_icon icon_green"><i class="fa-solid fa-sack-dollar"></i></div>
+                        <div class="panel_head_text">
+                            <h2>Salary Information</h2>
+                            <p>Enter your salary</p>
+                        </div>
+                        <span id="salary_saved_badge" class="saved_badge hidden"><i class="fa-solid fa-check"></i> Saved!</span>
+                    </div>
+
+                    <form id="salary_form">
+                        <label for="salary_input">Monthly Salary (<span class="currency_label_tag">INR</span>)</label>
+                        <div class="prefixed_input">
+                            <span id="salary_currency_symbol">₹</span>
+                            <input type="number" id="salary_input" min="0" step="1" placeholder="Enter salary" autocomplete="off" required>
+                        </div>
+                        <button type="submit" id="save_salary_btn" class="btn btn_blue">
+                            <i class="fa-solid fa-floppy-disk"></i> Save 
+                        </button>
+                    </form>
+                </section>
+
+                <section class="panel_card expense_form_card">
+                    <div class="panel_head">
+                        <div class="panel_icon icon_blue"><i class="fa-solid fa-file-invoice-dollar"></i></div>
+                        <div class="panel_head_text">
+                            <h2>Add New Expense</h2>
+                            <p>Fill expense information</p>
+                        </div>
+                        <span id="expense_saved_badge" class="saved_badge hidden"><i class="fa-solid fa-check"></i> Added!</span>
+                    </div>
+
+                    <form id="expense_form" novalidate>
+                        <label for="expense_name_input">Expense Name</label>
+                        <input type="text" id="expense_name_input" placeholder="Enter expense name" autocomplete="off" pattern="[A-Za-z\s&amp;\-',.]*">
+                        <span id="expense_name_error" class="field_error hidden"><i class="fa-solid fa-circle-exclamation"></i> Expense name is required</span>
+
+                        <label for="expense_amount_input">Expense Amount (<span class="currency_label_tag">INR</span>)</label>
+                        <div class="prefixed_input">
+                            <span id="expense_currency_symbol">₹</span>
+                            <input type="number" id="expense_amount_input" min="0" step="0.01" placeholder="Enter amount" autocomplete="off">
+                        </div>
+                        <span id="expense_amount_error" class="field_error hidden"><i class="fa-solid fa-circle-exclamation"></i> Valid expense amount is required</span>
+
+                        <label for="expense_category_select">Expense Category</label>
+                        <select id="expense_category_select">
+                            <option value="Food">Food</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Bills">Bills</option>
+                            <option value="Education">Education</option>
+                            <option value="Entertainment">Entertainment</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Other">Other</option>
+                        </select>
+
+                        <label for="expense_date_input">Transaction Date</label>
+                        <input type="date" id="expense_date_input">
+
+                        <button type="submit" id="add_expense_btn" class="btn btn_dark">
+                            <i class="fa-solid fa-circle-plus"></i> Add 
+                        </button>
+                    </form>
+                </section>
+            </div>
+
+            <div class="dashboard_right">
+                <div class="stats_row">
+                    <div class="stat_card">
+                        <div class="stat_top">
+                            <span class="stat_label">Total Salary</span>
+                            <div class="stat_icon icon_green"><i class="fa-solid fa-dollar-sign"></i></div>
+                        </div>
+                        <div class="stat_value" id="total_salary_value">₹0</div>
+                        <span class="stat_sub sub_green"><i class="fa-solid fa-circle"></i> Income</span>
+                    </div>
+
+                    <div class="stat_card">
+                        <div class="stat_top">
+                            <span class="stat_label">Total Expenses</span>
+                            <div class="stat_icon icon_red"><i class="fa-solid fa-arrow-trend-down"></i></div>
+                        </div>
+                        <div class="stat_value" id="total_expenses_value">₹0</div>
+                        <span class="stat_sub sub_red" id="expense_percent_text">0% of income spent</span>
+                    </div>
+
+                    <div class="stat_card">
+                        <div class="stat_top">
+                            <span class="stat_label">Remaining Balance</span>
+                            <div class="stat_icon icon_blue"><i class="fa-solid fa-wallet"></i></div>
+                        </div>
+                        <div class="stat_value stat_value_blue" id="remaining_balance_value">₹0</div>
+                        <span class="stat_sub sub_green">Remaining Money</span>
+                    </div>
+
+                    <div class="stat_card">
+                        <div class="stat_top">
+                            <span class="stat_label">Number of Expenses</span>
+                            <div class="stat_icon icon_dark"><i class="fa-solid fa-receipt"></i></div>
+                        </div>
+                        <div class="stat_value" id="expense_count_value">0</div>
+                        <span class="stat_sub sub_gray">Total Expenses</span>
+                    </div>
+                </div>
+
+                <section class="panel_card expenses_card">
+                    <div class="expenses_card_head">
+                        <div>
+                            <h2>Recent Expenses</h2>
+                            <p>Your expense records</p>
+                        </div>
+                        <div class="category_filters" id="category_filters"></div>
+                    </div>
+
+                    <div class="table_scroll_wrap">
+                        <table id="expenses_table">
+                            <thead>
+                                <tr>
+                                    <th>Expense Name</th>
+                                    <th>Category</th>
+                                    <th class="sortable_head" data-sort="amount">Amount <i class="fa-solid fa-sort"></i></th>
+                                    <th class="sortable_head" data-sort="date">Date <i class="fa-solid fa-sort"></i></th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenses_table_body"></tbody>
+                        </table>
+                        <p id="empty_expenses_message" class="empty_state hidden">No expenses found.</p>
+                    </div>
+
+                    <div class="table_footer_bar">
+                        <span id="showing_count_text">Showing 0 Expenses</span>
+                        <span id="total_shown_value">Total Shown: ₹0</span>
+                    </div>
+                </section>
+
+                <section class="panel_card chart_card">
+                    <div class="chart_card_head">
+                        <div class="panel_head">
+                            <div class="panel_icon icon_purple"><i class="fa-solid fa-chart-pie"></i></div>
+                            <div class="panel_head_text">
+                                <h2>Expense Analysis</h2>
+                                <p>Expense Overview</p>
+                            </div>
+                        </div>
+                        <div class="chart_toggle">
+                            <button type="button" id="balance_view_btn" class="chart_toggle_btn active_toggle"><i class="fa-solid fa-chart-pie"></i> Balance </button>
+                            <button type="button" id="category_view_btn" class="chart_toggle_btn"><i class="fa-solid fa-table-cells"></i> Category </button>
+                        </div>
+                    </div>
+
+                    <div class="chart_canvas_wrap">
+                        <canvas id="expense_chart"></canvas>
+                    </div>
+
+                    <p class="chart_legend_title">Chart Details</p>
+                    <div class="chart_legend" id="chart_legend"></div>
+                </section>
+
+                <section class="panel_card actions_row">
+                    <button type="button" id="download_pdf_btn" class="btn btn_blue">
+                        <i class="fa-solid fa-download"></i> Download Report
+                    </button>
+                    <button type="button" id="reset_defaults_btn" class="btn btn_ghost">
+                        <i class="fa-solid fa-rotate-left"></i> Reset Data
+                    </button>
+                    <div id="reset_confirm_group" class="reset_confirm_group hidden">
+                        <span>Delete all data?</span>
+                        <button type="button" id="reset_yes_btn" class="confirm_delete_btn">Yes</button>
+                        <button type="button" id="reset_cancel_btn" class="cancel_delete_btn">Cancel</button>
+                    </div>
+                    <div class="currency_picker">
+                        <label for="currency_select"><i class="fa-solid fa-globe"></i> Currency:</label>
+                        <select id="currency_select">
+                            <option value="INR">₹ - INR (Indian)</option>
+                            <option value="USD">$ - USD (US)</option>
+                            <option value="EUR">€ - EUR (Euro)</option>
+                            <option value="GBP">£ - GBP (British)</option>
+                        </select>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bottom_nav">
+        <button type="button" class="nav_tab active_tab" id="nav_dashboard" data-tab="dashboard">
+            <i class="fa-solid fa-table-cells-large"></i>
+            <span>Dashboard</span>
+        </button>
+        <button type="button" class="nav_tab" id="nav_history" data-tab="history">
+            <i class="fa-solid fa-clock-rotate-left"></i>
+            <span>Records</span>
+        </button>
+        <button type="button" class="nav_tab" id="nav_budget" data-tab="budget">
+            <i class="fa-solid fa-chart-pie"></i>
+            <span>Budget</span>
+        </button>
+        <button type="button" class="nav_tab" id="nav_settings" data-tab="settings">
+            <i class="fa-solid fa-gear"></i>
+            <span>Settings</span>
+        </button>
+    </footer>
+
+    <div id="message" class="message hidden"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js"></script>
+    <script src="JS/script.js"></script>
+</body>
+</html>
