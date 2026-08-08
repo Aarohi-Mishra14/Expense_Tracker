@@ -3,10 +3,6 @@ A simple expense tracker built with HTML, CSS and Vanilla Javascript.
 
 🔗 Live demo: https://expense-tracker-eta-pearl.vercel.app
 
-# Cash Flow - Expense Tracker
-
-A simple expense tracker built with vanilla JavaScript, HTML and CSS.
-
 ## Features
 
 - Add salary and track expenses (name, amount, category, date)
